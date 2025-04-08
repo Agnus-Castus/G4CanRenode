@@ -7,6 +7,8 @@ Create .venv
 activate venv
 ```source .venv/bin/activate```
 
+```pip install west```
+
 Build my App:
 ```west build -b nucleo_g474re app/can/isotp/ ```
 

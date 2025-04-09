@@ -24,6 +24,30 @@
             }
         },
         {
+            "label": "Build Can ISO-TP sample",
+            "type": "shell",
+            "command": "/home/alex/stmg4-with-can-and-renode/.venv/bin/west",  
+            "args": [
+                "build",
+                "--pristine",
+                "--board",
+                "nucleo_g474re",
+                "zephyr/samples/subsys/canbus/isotp",
+                "--",
+                "-d",
+                "build-can-isotp"
+              //  "-DEXTRA_CONF_FILE=${workspaceFolder}/debug.conf"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
             "label": "Run Blinky",
             "type": "shell",
             "command": "~/renode_portable/renode",
@@ -33,6 +57,34 @@
             // "dependsOn": [
             //     "Build application"
             // ],
+            "isBackground": true,
+            "problemMatcher": {
+                "source": "Renode",
+                "pattern": {
+                    "regexp": ""
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Renode, version .*",
+                    "endsPattern": ".*GDB server with all CPUs started on port.*"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "Run Can ISO-TP",
+            "type": "shell",
+            "command": "~/renode_portable/renode",
+            "args": [
+                "${workspaceFolder}/renode/can-isotp.resc"
+            ],
+            "dependsOn": [
+                "Build Can ISO-TP sample"
+            ],
             "isBackground": true,
             "problemMatcher": {
                 "source": "Renode",

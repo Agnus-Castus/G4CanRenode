@@ -51,3 +51,9 @@ This commands runs the hello world example with elf hosted by renode
 Attenation dont forget to start the emulation 
 type 
 ```start``` in the renode terminal
+
+## Debuging
+
+You need the gdb multiarch package
+
+```sudo apt install gdb-multiarch```

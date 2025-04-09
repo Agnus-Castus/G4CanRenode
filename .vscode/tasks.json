@@ -26,7 +26,7 @@
         {
             "label": "Run Blinky",
             "type": "shell",
-            "command": "renode",
+            "command": "~/renode_portable/renode",
             "args": [
                 "${workspaceFolder}/renode/blinky.resc"
             ],

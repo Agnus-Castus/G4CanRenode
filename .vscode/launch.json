@@ -9,7 +9,7 @@
             "postDebugTask": "Close Renode",
             "miDebuggerServerAddress": "localhost:3333",
             "cwd": "${workspaceRoot}",
-            "miDebuggerPath": "arm-zephyr-eabi-gdb",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
             "program": "${workspaceRoot}/build/zephyr/zephyr.elf"
         }
     ]

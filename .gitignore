@@ -2,3 +2,5 @@ build/
 .venv
 .west
 renode/*log*
+renode/hello_world-asciinema
+renode/hello_world-profile

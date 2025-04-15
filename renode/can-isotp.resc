@@ -1,27 +1,45 @@
-logFile $ORIGIN/hello_world-renode.log True
-
-using sysbus
-$name?="nucleo_g474re"
-mach create $name
-
-machine LoadPlatformDescription $ORIGIN/nucleo_g474re.repl
-
-showAnalyzer lpuart1
+#logFile $ORIGIN/hello_world-renode.log True
 
 set osPanicHook
 """
 self.ErrorLog("OS Panicked")
 """
-cpu0 AddSymbolHook "z_fatal_error" $osPanicHook
 
 macro reset
 """
     sysbus LoadELF @./build-can-isotp/zephyr/zephyr.elf 
     cpu0 VectorTableOffset `sysbus GetSymbolAddress "_vector_table"`
     cpu0 EnableZephyrMode
-    cpu0 EnableProfilerCollapsedStack $ORIGIN/hello_world-profile true 62914560
+   # cpu0 EnableProfilerCollapsedStack $ORIGIN/hello_world-profile true 62914560
 """
 
+emulation CreateCANHub "canHub"
+#canHub Start
+
+using sysbus
+$name?="nucleo_g474re"
+
+
+mach create "nucleo_g474re-1"
+machine LoadPlatformDescription $ORIGIN/nucleo_g474re.repl
+connector Connect sysbus.fdcan1 canHub
+
+showAnalyzer lpuart1
+
+
+cpu0 AddSymbolHook "z_fatal_error" $osPanicHook
+
 runMacro $reset
+
+mach create "nucleo_g474re-2"
+machine LoadPlatformDescription $ORIGIN/nucleo_g474re.repl
+connector Connect sysbus.fdcan1 canHub
+
+cpu0 AddSymbolHook "z_fatal_error" $osPanicHook
+showAnalyzer lpuart1
+
+
+runMacro $reset
+
 
 machine StartGdbServer 3333

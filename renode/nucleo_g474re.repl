@@ -136,7 +136,11 @@ usart1: UART.STM32F7_USART @ sysbus 0x40013800
 
 fdcan1: CAN.MCAN @ sysbus 0x40006400
     Line0 -> nvic0@21    
-    Line1 -> nvic0@22    
+    Line1 -> nvic0@22   
+    messageRAM: canMessageRAM
+
+canMessageRAM: Memory.ArrayMemory @ sysbus <0x4000AC00, +0x2800>
+    size: 0x2800
 
 iwdg: Timers.STM32_IndependentWatchdog @ sysbus 0x40003000
     frequency: 32000

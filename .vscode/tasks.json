@@ -4,7 +4,7 @@
         {
             "label": "Build application",
             "type": "shell",
-            "command": "west",
+            "command": "source .venv/bin/activate && west",
             "args": [
                 "build",
                 "--pristine",
@@ -26,14 +26,13 @@
         {
             "label": "Build Can ISO-TP sample",
             "type": "shell",
-            "command": "/home/alex/stmg4-with-can-and-renode/.venv/bin/west",  
+            "command": "${workspaceFolder}/.venv/bin/west",  
             "args": [
                 "build",
                 "--pristine",
                 "--board",
                 "nucleo_g474re",
                 "zephyr/samples/subsys/canbus/isotp",
-                "--",
                 "-d",
                 "build-can-isotp"
               //  "-DEXTRA_CONF_FILE=${workspaceFolder}/debug.conf"

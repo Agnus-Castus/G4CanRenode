@@ -1,0 +1,43 @@
+
+set osPanicHook
+"""
+self.ErrorLog("OS Panicked")
+"""
+
+macro reset
+"""
+    sysbus LoadELF @./build-can-isotp-h7/zephyr/zephyr.elf 
+    cpu VectorTableOffset `sysbus GetSymbolAddress "_vector_table"`
+    cpu EnableZephyrMode
+"""
+
+emulation CreateCANHub "canHub"
+#canHub Start
+
+using sysbus
+$name?="nucleo_g474re"
+
+
+mach create "stm32h743-1"
+machine LoadPlatformDescription $ORIGIN/stm32h743.repl
+connector Connect sysbus.fdcan1 canHub
+
+showAnalyzer lpuart1
+
+
+cpu AddSymbolHook "z_fatal_error" $osPanicHook
+
+runMacro $reset
+
+mach create "stm32h743-2"
+machine LoadPlatformDescription $ORIGIN/stm32h743.repl
+connector Connect sysbus.fdcan1 canHub
+
+cpu AddSymbolHook "z_fatal_error" $osPanicHook
+showAnalyzer lpuart1
+
+
+runMacro $reset
+
+
+machine StartGdbServer 3333
